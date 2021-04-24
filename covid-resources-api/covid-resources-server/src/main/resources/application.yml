@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: covid-resources
+server:
+  port: 2345
+  servlet:
+    context-path: /covidresources

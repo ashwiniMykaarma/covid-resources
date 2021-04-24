@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+    <jmxConfigurator/>
+<!--     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>/var/log/kaarya/covidresources.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <maxFileSize>1GB</maxFileSize>
+            <maxHistory>180</maxHistory>
+            <totalSizeCap>180GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="covidresources..config.LogLayout" />
+        </encoder>
+    </appender> -->
+
+<!--     <root level="INFO">
+        <appender-ref ref="ROLLING"/>
+    </root>  -->
+
+
+</configuration>
