@@ -47,7 +47,7 @@ public abstract class AbstractFirestoreRepository<T> {
 
     public String update(T model,String documentId){
         log.info("Update doc id is : "+documentId);
-        ApiFuture<WriteResult> resultApiFuture = collectionReference.document(documentId).set(model, SetOptions.merge());;
+        ApiFuture<WriteResult> resultApiFuture = collectionReference.document(documentId).set(model, SetOptions.merge());
 
         try {
             log.info("{}-{} updated at{}", collectionName, documentId, resultApiFuture.get().getUpdateTime());
