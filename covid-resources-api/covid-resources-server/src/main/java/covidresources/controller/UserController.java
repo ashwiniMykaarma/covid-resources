@@ -69,7 +69,7 @@ public class UserController {
 			MDC.put(LogEnums.LogEntityName.endpoint.name(), MDCConstants.FETCH_USER);
 			MDC.put(LogEnums.LogEntityName.message_uuid.name(), Utility.getRandomUUID());
 
-			return userService.fetchUser(userUuid);
+			return userService.fetchUserByEmail(emailAddress);
 		} finally {
 			MDC.clear();
 		}
