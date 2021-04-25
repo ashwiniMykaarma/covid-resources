@@ -5,3 +5,6 @@ server:
   port: 6780
   servlet:
     context-path: /covidresources
+firebase:
+  credential:
+    path: src/main/resources/key.json

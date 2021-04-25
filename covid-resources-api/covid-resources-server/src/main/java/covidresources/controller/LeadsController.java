@@ -45,11 +45,12 @@ public class LeadsController {
 	@PatchMapping(value= RestURIConstants.LEAD_UUID_URI,produces = RestURIConstants.APPLICATION_JSON)
 	public SaveLeadResponse updateLeads(
 			@RequestBody SaveOrUpdateLeadRequest request,
+			@PathVariable(RestURIConstants.LEAD_UUID) String leadUuid,
 			@RequestHeader(RestURIConstants.AUTHORIZATION) String authToken
 			) throws Exception {
 		try {
 			
-			return leadsService.updateLead(request);
+			return leadsService.updateLead(request,leadUuid);
 		} finally {
 			MDC.clear();
 		}

@@ -1,5 +1,6 @@
 package covidresources;
 
+import com.google.cloud.firestore.*;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -9,10 +10,6 @@ import covidresources.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.cloud.FirestoreClient;
 
 import java.io.IOException;
@@ -20,22 +17,30 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+@Service
 public class DBService {
-    FireBaseService fireBaseService = new FireBaseService();
+    Firestore fireBaseDB = null;
+
     public void getPatientDetails() throws InterruptedException, ExecutionException {
-        DatabaseReference dbRef = fireBaseService.getDb().getReference().child("users");
-        System.out.println(dbRef.child("users").push().getKey());
-//        DatabaseReference hopperRef = dbRef.child("gracehop");
-//        Map<String, Object> hopperUpdates = new HashMap<>();
-//        hopperUpdates.put("myname", "Amazing Raahul");
-//
-//        hopperRef.updateChildrenAsync(hopperUpdates);
+        fireBaseDB = FirestoreClient.getFirestore();
+        Patient patient = new Patient();
+        patient.setName("Ash");
+        patient.setAge(13);
+        patient.setCity("noida");
+        System.out.println(fireBaseDB.collection("test").listDocuments().iterator().next());
+   // Add new Document
+  /*      ApiFuture<WriteResult> future = fireBaseService.getDb().collection("test").document("LA").set(patient);;
+        System.out.println("Update time : " + future.get().getUpdateTime());*/
 
-        Map<String, String> users = new HashMap<>();
-        users.put(dbRef.child("users").push().getKey(), "June 23, 1912");
-        users.put(dbRef.child("users").push().getKey(), "December 9, 1906");
+        // update doc, create the document if missing
+/*        ApiFuture<WriteResult> writeResult = fireBaseService.getDb().collection("test").document("LA").set(patient, SetOptions.merge());
+        System.out.println("Update time : " + writeResult.get().getUpdateTime());*/
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", "himmat");
+        data.put("country", "wala");
+        ApiFuture<DocumentReference> addedDocRef = fireBaseDB.collection("test").add(data);
+        System.out.println("Added document with ID: " + addedDocRef.get().getId());
 
-        dbRef.child("users").child(dbRef.child("users").push().getKey()).setValueAsync(users);
 
     }
 }

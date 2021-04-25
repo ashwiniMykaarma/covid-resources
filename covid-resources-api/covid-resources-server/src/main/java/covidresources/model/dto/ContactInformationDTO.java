@@ -1,6 +1,7 @@
 package covidresources.model.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ContactInformationDTO implements Serializable{
 	
@@ -9,8 +10,8 @@ public class ContactInformationDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	String phoneNumber;
-	String emailAddress;
+	List<String> phoneNumber;
+	List<String> emailAddress;
 	String address;
 	Double latitude;
 	Double longitude;
@@ -18,7 +19,7 @@ public class ContactInformationDTO implements Serializable{
 	public ContactInformationDTO() {
 		super();
 	}
-	public ContactInformationDTO(String phoneNumber, String emailAddress, String address, Double latitude,
+	public ContactInformationDTO(List<String> phoneNumber, List<String> emailAddress, String address, Double latitude,
 			Double longitude) {
 		super();
 		this.phoneNumber = phoneNumber;
@@ -27,16 +28,16 @@ public class ContactInformationDTO implements Serializable{
 		this.latitude = latitude;
 		this.longitude = longitude;
 	}
-	public String getPhoneNumber() {
+	public List<String> getPhoneNumber() {
 		return phoneNumber;
 	}
-	public void setPhoneNumber(String phoneNumber) {
+	public void setPhoneNumber(List<String> phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	public String getEmailAddress() {
+	public List<String> getEmailAddress() {
 		return emailAddress;
 	}
-	public void setEmailAddress(String emailAddress) {
+	public void setEmailAddress(List<String> emailAddress) {
 		this.emailAddress = emailAddress;
 	}
 	public String getAddress() {
