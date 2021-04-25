@@ -8,10 +8,6 @@ public class Patient {
 
     private String city;
 
-
-    public Patient(String name, int age, String city) {
-    }
-
     public String getName() {
         return name;
     }
