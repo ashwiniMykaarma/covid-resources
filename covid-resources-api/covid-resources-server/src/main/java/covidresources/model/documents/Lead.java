@@ -7,5 +7,6 @@ public class Lead {
 	
 	String state;
 	Essential essential;
+	String UUID;
 	
 }

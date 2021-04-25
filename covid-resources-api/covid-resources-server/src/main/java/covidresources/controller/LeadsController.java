@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import covidresources.enums.RestURIConstants;
-import covidresources.model.request.SaveLeadsRequest;
-import covidresources.model.response.SaveLeadsResponse;
+import covidresources.model.request.SaveLeadRequest;
+import covidresources.model.response.SaveLeadResponse;
 import covidresources.services.LeadsService;
 import io.swagger.annotations.Api;
 
 @RestController("LeadsController")
-@RequestMapping()
+@RequestMapping("/lead")
 @Api(tags = "Leads Controller")
 public class LeadsController {
 	
 	@Autowired
 	LeadsService leadsService;
 	
-	@PutMapping(value = RestURIConstants.SAVE, produces = RestURIConstants.APPLICATION_JSON)
-	public SaveLeadsResponse saveLeads(
-			@RequestBody SaveLeadsRequest request,
+	@PutMapping(produces = RestURIConstants.APPLICATION_JSON)
+	public SaveLeadResponse saveLeads(
+			@RequestBody SaveLeadRequest request,
 			@RequestHeader(RestURIConstants.AUTHORIZATION) String authToken
 			) throws Exception {
 		try {

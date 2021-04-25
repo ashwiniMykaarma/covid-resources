@@ -9,7 +9,7 @@ public class Essential {
 	
 	String type;
 	ContactInformation contactInformation;
+	String description;
 	String name;
-	Date verifiedAt;
-
+	String UUID;
 }

@@ -1,5 +1,13 @@
 package covidresources.model.documents;
 
-public class ContactInformation {
+import lombok.Data;
 
+@Data
+public class ContactInformation {
+	
+	String phoneNumber;
+	String emailAddress;
+	String address;
+	Double latitude;
+	Double longitude;
 }
