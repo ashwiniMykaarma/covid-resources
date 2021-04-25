@@ -6,7 +6,10 @@ import lombok.Data;
 public class Lead {
 	
 	String state;
-	Essential essential;
+	String type;
+	ContactInformation contactInformation;
+	String description;
+	String name;
 	String UUID;
 	
 }

@@ -3,7 +3,8 @@ package covidresources.enums;
 public enum ApiErrorEnum {
 	
 	//Generic error codes
-	EMPTY_REQUEST("request is null or empty");
+	EMPTY_REQUEST("request is null or empty"),
+	EMPTY_UUID("UUID is null or empty");
 	
 	public String value ;
 

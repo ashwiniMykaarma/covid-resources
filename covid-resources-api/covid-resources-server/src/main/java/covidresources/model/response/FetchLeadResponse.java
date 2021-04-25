@@ -1,27 +1,24 @@
-package covidresources.model.request;
-
-import java.io.Serializable;
+package covidresources.model.response;
 
 import covidresources.model.dto.LeadDTO;
 
-public class SaveLeadRequest implements Serializable{
+public class FetchLeadResponse extends Response{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	LeadDTO lead;
+	private LeadDTO lead;
 	
-	public SaveLeadRequest() {
+	public FetchLeadResponse() {
 		super();
 	}
 
-	public SaveLeadRequest(LeadDTO lead) {
+	public FetchLeadResponse(LeadDTO lead) {
 		super();
 		this.lead = lead;
 	}
-	
 	
 	public LeadDTO getLead() {
 		return lead;
