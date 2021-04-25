@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 public class LeadsRepository extends AbstractFirestoreRepository<Lead> {
 
     protected LeadsRepository(Firestore firestore) {
-        super(firestore, "Lead");
+        super(firestore, "test");
     }
 
 

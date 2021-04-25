@@ -47,8 +47,8 @@ public class LeadsService {
 		log.info("mapped object={}", Utility.toString(lead));
 		
 		response.setStatusCode(HttpStatus.OK.value());
-		String documentID = leadsRepository.save(lead);
-		System.out.println(leadsRepository.get(documentID));
+		//String documentID = leadsRepository.save(lead);
+		System.out.println(leadsRepository.filterAndRetreive());
 		return response;
 	}
 

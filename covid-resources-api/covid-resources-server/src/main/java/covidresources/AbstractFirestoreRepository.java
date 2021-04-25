@@ -4,6 +4,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.database.annotations.Nullable;
 import covidresources.model.DocumentId;
+import covidresources.model.documents.Lead;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.ParameterizedType;
@@ -71,6 +72,21 @@ public abstract class AbstractFirestoreRepository<T> {
 
     }
 
+    public List<T> filterAndRetreive(){
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = collectionReference.whereEqualTo("state", "NewYork").get();
+
+        try {
+            List<QueryDocumentSnapshot> queryDocumentSnapshots = querySnapshotApiFuture.get().getDocuments();
+            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                System.out.println(document.getId() + " => " + document.toObject(Lead.class));
+            }
+
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Exception occurred while retrieving all document for {}", collectionName);
+        }
+        return Collections.<T>emptyList();
+
+    }
 
     public Optional<T> get(String documentId){
         DocumentReference documentReference = collectionReference.document(documentId);
