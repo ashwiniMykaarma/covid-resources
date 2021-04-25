@@ -12,7 +12,6 @@ public class Lead {
 	String description;
 	String name;
 	Boolean isAvailable;
-	
 	@DocumentId
 	String UUID;
 	
