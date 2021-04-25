@@ -2,6 +2,10 @@ package covidresources.services;
 
 import covidresources.LeadsRepository;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -151,11 +155,6 @@ public class LeadsService {
 					Utility.toString(request), validationException.getApiError().getCode());
 			throw validationException;
 		}
-		
-//		Lead lead = documentMapper.mapDTOtoFSDBLead(request.getLead());
-//		
-//		log.info("mapped object={}", Utility.toString(lead));
-		
 		response.setStatusCode(HttpStatus.OK.value());
 		return response;
 	}
