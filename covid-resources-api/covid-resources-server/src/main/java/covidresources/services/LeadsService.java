@@ -1,10 +1,7 @@
 package covidresources.services;
 
-import covidresources.LeadsRepository;
-
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +19,7 @@ import covidresources.model.request.SaveOrUpdateLeadRequest;
 import covidresources.model.response.FetchLeadListResponse;
 import covidresources.model.response.FetchLeadResponse;
 import covidresources.model.response.SaveLeadResponse;
+import covidresources.repository.LeadsRepository;
 import covidresources.validator.LeadsValidator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -49,6 +47,10 @@ public class LeadsService {
 					CovidResourcesAPILogCodes.COVID_RESOURCES_API_ERROR_CODE.getLogMessage(),
 					Utility.toString(request), validationException.getApiError().getCode());
 			throw validationException;
+		}
+		
+		if(request.getLead().getIsAvailable() == null) {
+			request.getLead().setIsAvailable(true);
 		}
 		
 		Lead lead = documentMapper.mapDTOtoFSDBLead(request.getLead());
@@ -145,7 +147,7 @@ public class LeadsService {
 	
 	public FetchLeadListResponse fetchLeadList(FetchLeadsRequest request) throws Exception {
 		FetchLeadListResponse response = new FetchLeadListResponse();
-		log.info("updating leads for request={}", Utility.toString(request));
+		log.info("fetching leads for request={}", Utility.toString(request));
 		
 		try {
 			leadsValidator.validateLeadsListFetchRequest(request);
@@ -155,7 +157,19 @@ public class LeadsService {
 					Utility.toString(request), validationException.getApiError().getCode());
 			throw validationException;
 		}
-		response.setStatusCode(HttpStatus.OK.value());
+		List<Lead> leadsList = leadsRepository.filterLeadsForStatesAndCities(request.getStates(), request.getCities());
+		log.info("list from DB={}", Utility.toString(leadsList));
+		if(CollectionUtils.isEmpty(leadsList)) {
+			response.setStatusCode(HttpStatus.NO_CONTENT.value());
+		}else {
+			List<LeadDTO> leadDTOList = new ArrayList<LeadDTO>();
+			for(Lead lead: leadsList) {
+				LeadDTO leadDTO = documentMapper.mapFSDBLeadtoDTO(lead);
+				leadDTOList.add(leadDTO);
+			}
+			response.setLead(leadDTOList);
+			response.setStatusCode(HttpStatus.OK.value());
+		}
 		return response;
 	}
 

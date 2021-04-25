@@ -9,27 +9,31 @@ public class VerificationDTO implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	String essentialUUID;
+	String leadUUID;
 	String userUUID;
 	Date insertTS;
+	Boolean isAvailable;
+	String UUID;
 	
 	public VerificationDTO() {
 		super();
 	}
 	
-	public VerificationDTO(String essentialUUID, String userUUID, Date insertTS) {
+	public VerificationDTO(String leadUUID, String userUUID, Date insertTS, Boolean isAvailable, String uUID) {
 		super();
-		this.essentialUUID = essentialUUID;
+		this.leadUUID = leadUUID;
 		this.userUUID = userUUID;
 		this.insertTS = insertTS;
+		this.isAvailable = isAvailable;
+		UUID = uUID;
 	}
 	
-	public String getEssentialUUID() {
-		return essentialUUID;
+	public String getLeadUUID() {
+		return leadUUID;
 	}
 
-	public void setEssentialUUID(String essentialUUID) {
-		this.essentialUUID = essentialUUID;
+	public void setLeadUUID(String leadUUID) {
+		this.leadUUID = leadUUID;
 	}
 
 	public String getUserUUID() {
@@ -46,6 +50,22 @@ public class VerificationDTO implements Serializable{
 
 	public void setInsertTS(Date insertTS) {
 		this.insertTS = insertTS;
+	}
+	
+	public Boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+
+	public String getUUID() {
+		return UUID;
+	}
+
+	public void setUUID(String uUID) {
+		UUID = uUID;
 	}
 
 }

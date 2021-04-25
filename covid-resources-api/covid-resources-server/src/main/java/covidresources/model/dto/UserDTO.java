@@ -13,12 +13,14 @@ public class UserDTO implements Serializable{
 	String name;
 	ContactInformationDTO contactInformation;
 	String UUID;
+	Boolean hasAuthorityToVerify;
 	
-	public UserDTO(String name, ContactInformationDTO contactInformation, String uUID) {
+	public UserDTO(String name, ContactInformationDTO contactInformation, String uUID, Boolean hasAuthorityToVerify) {
 		super();
 		this.name = name;
 		this.contactInformation = contactInformation;
-		UUID = uUID;
+		this.UUID = uUID;
+		this.hasAuthorityToVerify = hasAuthorityToVerify;
 	}
 	public UserDTO() {
 		super();
@@ -41,6 +43,12 @@ public class UserDTO implements Serializable{
 	}
 	public void setUUID(String uUID) {
 		UUID = uUID;
+	}
+	public Boolean getHasAuthorityToVerify() {
+		return hasAuthorityToVerify;
+	}
+	public void setHasAuthorityToVerify(Boolean hasAuthorityToVerify) {
+		this.hasAuthorityToVerify = hasAuthorityToVerify;
 	}
 
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import covidresources.enums.LogEnums;
+import covidresources.enums.MDCConstants;
 import covidresources.enums.RestURIConstants;
 import covidresources.model.request.FetchLeadsRequest;
 import covidresources.model.request.SaveOrUpdateLeadRequest;
@@ -19,6 +21,7 @@ import covidresources.model.response.FetchLeadListResponse;
 import covidresources.model.response.FetchLeadResponse;
 import covidresources.model.response.SaveLeadResponse;
 import covidresources.services.LeadsService;
+import covidresources.services.Utility;
 import io.swagger.annotations.Api;
 
 @RestController("LeadsController")
@@ -36,6 +39,9 @@ public class LeadsController {
 			) throws Exception {
 		try {
 			
+			MDC.put(LogEnums.LogEntityName.endpoint.name(), MDCConstants.SAVE_LEAD);
+			MDC.put(LogEnums.LogEntityName.message_uuid.name(), Utility.getRandomUUID());
+			
 			return leadsService.saveLead(request);
 		} finally {
 			MDC.clear();
@@ -50,6 +56,9 @@ public class LeadsController {
 			) throws Exception {
 		try {
 			
+			MDC.put(LogEnums.LogEntityName.endpoint.name(), MDCConstants.UPDATE_LEAD);
+			MDC.put(LogEnums.LogEntityName.message_uuid.name(), Utility.getRandomUUID());
+			
 			return leadsService.updateLead(request,leadUuid);
 		} finally {
 			MDC.clear();
@@ -63,6 +72,9 @@ public class LeadsController {
 			) throws Exception {
 		try {
 			
+			MDC.put(LogEnums.LogEntityName.endpoint.name(), MDCConstants.FETCH_LEAD);
+			MDC.put(LogEnums.LogEntityName.message_uuid.name(), Utility.getRandomUUID());
+			
 			return leadsService.fetchLead(leadUuid);
 		} finally {
 			MDC.clear();
@@ -75,6 +87,9 @@ public class LeadsController {
 			@RequestHeader(RestURIConstants.AUTHORIZATION) String authToken
 			) throws Exception {
 		try {
+			
+			MDC.put(LogEnums.LogEntityName.endpoint.name(), MDCConstants.FETCH_LEAD_LIST);
+			MDC.put(LogEnums.LogEntityName.message_uuid.name(), Utility.getRandomUUID());
 			
 			return leadsService.fetchLeadList(request);
 		} finally {

@@ -1,4 +1,4 @@
-package covidresources;
+package covidresources.repository;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;

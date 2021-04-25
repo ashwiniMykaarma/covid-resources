@@ -9,10 +9,12 @@ public class LeadDTO implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	String state;
+	String city;
 	String type;
 	ContactInformationDTO contactInformation;
 	String description;
 	String name;
+	Boolean isAvailable;
 	String UUID;
 	
 	public LeadDTO() {
@@ -72,6 +74,22 @@ public class LeadDTO implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 	
 	
