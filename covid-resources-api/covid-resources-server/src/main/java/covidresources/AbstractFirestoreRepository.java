@@ -45,6 +45,20 @@ public abstract class AbstractFirestoreRepository<T> {
         return "false";
     }
 
+    public String update(T model,String documentId){
+        log.info("Update doc id is : "+documentId);
+        ApiFuture<WriteResult> resultApiFuture = collectionReference.document(documentId).set(model, SetOptions.merge());;
+
+        try {
+            log.info("{}-{} updated at{}", collectionName, documentId, resultApiFuture.get().getUpdateTime());
+            return documentId;
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Error updating {}={} {}", collectionName, documentId, e.getMessage());
+        }
+
+        return "false";
+    }
+
     public void delete(T model){
         String documentId = getDocumentId(model);
         ApiFuture<WriteResult> resultApiFuture = collectionReference.document(documentId).delete();
@@ -104,25 +118,10 @@ public abstract class AbstractFirestoreRepository<T> {
         return Collections.<T>emptyList();
 
     }
-    
-    public List<T> filterDocumentsForTwoValueInList(List<String> list1, String field1, List<String> list2, String field2){
-        ApiFuture<QuerySnapshot> querySnapshotApiFuture = collectionReference.whereIn(field1, list1).whereIn(field2, list2).get();
-
-        try {
-            List<QueryDocumentSnapshot> queryDocumentSnapshots = querySnapshotApiFuture.get().getDocuments();
-            for (DocumentSnapshot document : queryDocumentSnapshots) {
-                System.out.println(document.getId() + " => " + document.toObject(Lead.class));
-            }
-
-        } catch (InterruptedException | ExecutionException e) {
-            log.error("Exception occurred while retrieving all document for {}", collectionName);
-        }
-        return Collections.<T>emptyList();
-
-    }
 
     public Optional<T> get(String documentId){
         DocumentReference documentReference = collectionReference.document(documentId);
+        System.out.println(collectionReference.document(documentId).getId());
         ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = documentReference.get();
 
         try {

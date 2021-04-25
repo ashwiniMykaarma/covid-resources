@@ -10,7 +10,6 @@ public class Lead {
 	ContactInformation contactInformation;
 	String description;
 	String name;
-	
 	@DocumentId
 	String UUID;
 	

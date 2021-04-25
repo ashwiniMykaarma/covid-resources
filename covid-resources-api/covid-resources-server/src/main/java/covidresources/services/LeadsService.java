@@ -54,12 +54,13 @@ public class LeadsService {
 		Lead lead = documentMapper.mapDTOtoFSDBLead(request.getLead());
 		
 		String documentID = leadsRepository.save(lead);
-		
+		log.info("Saved lead with ID : "+documentID);
 		response.setStatusCode(HttpStatus.OK.value());
 		response.setLeadUuid(documentID);
 		return response;
 	}
-	
+
+	// update Lead if exist , else create new Lead
 	public SaveLeadResponse updateLead(SaveOrUpdateLeadRequest request, String leadUuid) throws Exception {
 		SaveLeadResponse response = new SaveLeadResponse();
 		log.info("updating leads for request={}", Utility.toString(request));
@@ -72,49 +73,9 @@ public class LeadsService {
 					Utility.toString(request), validationException.getApiError().getCode());
 			throw validationException;
 		}
-		
-		Lead lead = leadsRepository.get(leadUuid).get();
-		
-		if(StringUtils.isEmpty(request.getLead().getDescription())) {
-			lead.setDescription(request.getLead().getDescription());
-		}
-		
-		if(StringUtils.isEmpty(request.getLead().getName())) {
-			lead.setName(request.getLead().getName());
-		}
-		
-		if(StringUtils.isEmpty(request.getLead().getState())) {
-			lead.setState(request.getLead().getState());
-		}
-		
-		if(StringUtils.isEmpty(request.getLead().getType())) {
-			lead.setType(request.getLead().getType());
-		}
-		
-		if(request.getLead().getContactInformation() != null) {
-			
-			if(CollectionUtils.isEmpty(request.getLead().getContactInformation().getPhoneNumber()) == false) {
-				lead.getContactInformation().setPhoneNumber(request.getLead().getContactInformation().getPhoneNumber());
-			}
-			
-			if(CollectionUtils.isEmpty(request.getLead().getContactInformation().getEmailAddress()) == false) {
-				lead.getContactInformation().setEmailAddress(request.getLead().getContactInformation().getEmailAddress());
-			}
-			
-			if(StringUtils.isEmpty(request.getLead().getContactInformation().getAddress())) {
-				lead.getContactInformation().setAddress(request.getLead().getContactInformation().getAddress());
-			}
-			
-			if(request.getLead().getContactInformation().getLatitude() != null) {
-				lead.getContactInformation().setLatitude(request.getLead().getContactInformation().getLatitude());
-			}
-			
-			if(request.getLead().getContactInformation().getLongitude() != null) {
-				lead.getContactInformation().setLongitude(request.getLead().getContactInformation().getLongitude());
-			}
-		}
-		
-		String documentID = leadsRepository.save(lead);
+
+		Lead lead = documentMapper.mapDTOtoFSDBLead(request.getLead());
+		String documentID = leadsRepository.update(lead,leadUuid);
 		response.setStatusCode(HttpStatus.OK.value());
 		response.setLeadUuid(documentID);
 		return response;
@@ -134,10 +95,9 @@ public class LeadsService {
 		}
 		
 		log.info(Utility.toString(leadsRepository.get(leadUuid)));
-		
 		Lead lead = leadsRepository.get(leadUuid).get();
 		LeadDTO leadDTO = documentMapper.mapFSDBLeadtoDTO(lead);
-		
+		log.info(leadDTO.getState());
 		response.setStatusCode(HttpStatus.OK.value());
 		response.setLead(leadDTO);
 		return response;
