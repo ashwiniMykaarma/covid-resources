@@ -28,12 +28,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UserService {
 	
 	@Autowired
-	VerificationRepository verificationRepository;
-	
-	@Autowired
-	LeadsRepository leadsRepository;
-	
-	@Autowired
 	UserRepository userRepository;
 	
 	@Autowired
@@ -100,12 +94,10 @@ public class UserService {
 					emailAddress, validationException.getApiError().getCode());
 			throw validationException;
 		}
-		
-//		User user = userRepository.get(userUuid).get();
-//		
-//		UserDTO userDTO = documentMapper.mapFSDBUsertoDTO(user);
-//		response.setUser(userDTO);
-//		response.setStatusCode(HttpStatus.OK.value());
+		User user = userRepository.filterDocumentsForValueInListObject("contactInformation.emailAddress",emailAddress).get();
+ 		UserDTO userDTO = documentMapper.mapFSDBUsertoDTO(user);
+		response.setUser(userDTO);
+		response.setStatusCode(HttpStatus.OK.value());
 		return response;
 	}
 

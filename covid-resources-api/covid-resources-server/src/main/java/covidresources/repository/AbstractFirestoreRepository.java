@@ -4,8 +4,8 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.*;
 import com.google.firebase.database.annotations.Nullable;
 import covidresources.model.DocumentId;
-import covidresources.services.Utility;
 import covidresources.model.documents.Lead;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.ParameterizedType;
@@ -87,7 +87,7 @@ public abstract class AbstractFirestoreRepository<T> {
 
     }
 
-    public List<T> filterDocumentsForValue(String value, String field){
+    public List<T> filterDocumentsForValue(String field, String value){
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = collectionReference.whereEqualTo(field, value).get();
 
         try {
@@ -100,10 +100,25 @@ public abstract class AbstractFirestoreRepository<T> {
             log.error("Exception occurred while retrieving all document for {}", collectionName);
         }
         return Collections.<T>emptyList();
+    }
 
+    @SneakyThrows
+    public Optional<T> filterDocumentsForValueInListObject(String field, String value){
+        ApiFuture<QuerySnapshot> querySnapshotApiFuture = collectionReference.whereArrayContains(field, value).get();
+        try {
+            List<QueryDocumentSnapshot> queryDocumentSnapshots = querySnapshotApiFuture.get().getDocuments();
+            for (DocumentSnapshot document : queryDocumentSnapshots) {
+                System.out.println(document.getId() + " => " + document.toObject(Lead.class));
+                return Optional.ofNullable(document.toObject(parameterizedType));
+            }
+
+        } catch (InterruptedException | ExecutionException e) {
+            log.error("Exception occurred while retrieving all document for {}", collectionName);
+        }
+        return Optional.empty();
     }
     
-    public List<T> filterDocumentsForValueInList(List<String> list, String field){
+    public List<T> filterDocumentsForValueInList(String field, List<String> list){
         ApiFuture<QuerySnapshot> querySnapshotApiFuture = collectionReference.whereIn(field, list).get();
 
         try {
@@ -121,7 +136,6 @@ public abstract class AbstractFirestoreRepository<T> {
 
     public Optional<T> get(String documentId){
         DocumentReference documentReference = collectionReference.document(documentId);
-        System.out.println(collectionReference.document(documentId).getId());
         ApiFuture<DocumentSnapshot> documentSnapshotApiFuture = documentReference.get();
 
         try {
