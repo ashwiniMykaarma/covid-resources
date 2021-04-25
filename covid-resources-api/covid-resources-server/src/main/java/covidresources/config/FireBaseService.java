@@ -5,33 +5,32 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.database.FirebaseDatabase;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Service
+@Configuration
 public class FireBaseService {
 
-    Firestore db;
     private final String FIREBASE_CREDS_PATH = "src/main/resources/key.json";
 
-    @PostConstruct
-    public void initialize() {
+    @Bean
+    public Firestore getFireStore(@Value("${firebase.credential.path}") String credentialPath) throws IOException {
         // Use a service account
-        try {
-            InputStream serviceAccount = new FileInputStream(FIREBASE_CREDS_PATH);
+            InputStream serviceAccount = new FileInputStream(credentialPath);
             GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount);
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(credentials)
                     .build();
             FirebaseApp.initializeApp(options);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+        return FirestoreClient.getFirestore();
     }
 
 

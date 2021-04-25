@@ -2,6 +2,9 @@ spring:
   application:
     name: covid-resources
 server:
-  port: 2345
+  port: 6780
   servlet:
     context-path: /covidresources
+firebase:
+  credential:
+    path: src/main/resources/key.json
